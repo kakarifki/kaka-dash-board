@@ -8,31 +8,38 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
 
-// Update path to look for the file inside the mounted folder
+// Mounted paths
 const TODO_FILE = '/app/data/TODO.md';
+const STATUS_FILE = '/app/data/status.json';
 
 app.get('/api/tasks', (req, res) => {
     try {
-        console.log(`Checking for file at: ${TODO_FILE}`);
         if (fs.existsSync(TODO_FILE)) {
             const content = fs.readFileSync(TODO_FILE, 'utf8');
             const html = md.render(content);
             res.json({ html });
         } else {
-            console.error('File not found');
-            res.json({ html: '<p class="text-orange-400">⚠️ TODO.md not found in /app/data/. Please check Directory Mount.</p>' });
+            res.json({ html: '<p class="text-orange-400">⚠️ TODO.md not found. Check mount.</p>' });
         }
     } catch (err) {
-        console.error('Read error:', err.message);
-        res.status(500).json({ error: 'Failed to read tasks', details: err.message });
+        res.status(500).json({ error: 'Failed to read tasks' });
     }
 });
 
 app.get('/api/agents', (req, res) => {
-    res.json({ 
-        agents: "Armada is active (Kapten Kaka, Kakarir, KaDev).",
-        status: "Gateway: Connected to Local VPS"
-    });
+    try {
+        if (fs.existsSync(STATUS_FILE)) {
+            const statusData = JSON.parse(fs.readFileSync(STATUS_FILE, 'utf8'));
+            res.json(statusData);
+        } else {
+            res.json({ 
+                agents: "Armada status pending...",
+                status: "Gateway status pending..."
+            });
+        }
+    } catch (err) {
+        res.json({ agents: "Error reading status", status: "Offline" });
+    }
 });
 
 app.listen(port, () => {
