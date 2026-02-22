@@ -9,6 +9,7 @@
         .prose ul { list-style-type: disc; padding-left: 1.5rem; }
         .prose h1 { font-size: 1.5rem; font-weight: bold; margin-top: 1rem; }
         .prose h2 { font-size: 1.25rem; font-weight: bold; margin-top: 0.75rem; }
+        .prose input[type="checkbox"] { margin-right: 0.5rem; }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 font-mono">
@@ -67,15 +68,16 @@ Checking gateway...
                 // Tasks
                 const taskRes = await fetch('/api/tasks');
                 const taskData = await taskRes.json();
-                document.getElementById('tasks-content').innerHTML = taskData.html;
+                document.getElementById('tasks-content').innerHTML = taskData.html || '<p class="text-red-400">Error loading tasks</p>';
 
                 // Agents
                 const agentRes = await fetch('/api/agents');
                 const agentData = await agentRes.json();
-                document.getElementById('agents-content').textContent = agentData.agents;
-                document.getElementById('gateway-content').textContent = agentData.status;
+                document.getElementById('agents-content').textContent = agentData.agents || 'No agent data';
+                document.getElementById('gateway-content').textContent = agentData.status || 'No gateway status';
             } catch (err) {
                 console.error('Fetch error:', err);
+                document.getElementById('tasks-content').innerHTML = '<p class="text-red-400">Connection to API failed</p>';
             }
         }
 
