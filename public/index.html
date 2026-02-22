@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaka DashBoard 👨‍✈️🛰️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; }
+        .prose h1 { font-size: 1.5rem; font-weight: bold; margin-top: 1rem; }
+        .prose h2 { font-size: 1.25rem; font-weight: bold; margin-top: 0.75rem; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 font-mono">
+    <div class="max-w-6xl mx-auto">
+        <header class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+            <div>
+                <h1 class="text-3xl font-bold text-sky-400">Kaka DashBoard</h1>
+                <p class="text-slate-400">Mission Control for Chief Rifki</p>
+            </div>
+            <div class="text-right">
+                <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm border border-green-500/30">System: Online</span>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Task Board -->
+            <div class="lg:col-span-2 bg-slate-800/50 rounded-xl border border-slate-700 p-6">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-sky-300">
+                    <span>📋</span> Task Board
+                </h2>
+                <div id="tasks-content" class="prose prose-invert max-w-none text-slate-300">
+                    Loading tasks...
+                </div>
+            </div>
+
+            <!-- Agent Status -->
+            <div class="space-y-8">
+                <div class="bg-slate-800/50 rounded-xl border border-slate-700 p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-purple-400">
+                        <span>🤖</span> Armada Status
+                    </h2>
+                    <pre id="agents-content" class="text-xs text-slate-400 whitespace-pre-wrap leading-relaxed">
+Fetching agents...
+                    </pre>
+                </div>
+                
+                <div class="bg-slate-800/50 rounded-xl border border-slate-700 p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-emerald-400">
+                        <span>🛰️</span> Gateway Status
+                    </h2>
+                    <pre id="gateway-content" class="text-xs text-slate-400 whitespace-pre-wrap leading-relaxed">
+Checking gateway...
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-slate-500 text-sm">
+            <p>Kapten Kaka & KaDev &copy; 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                // Tasks
+                const taskRes = await fetch('/api/tasks');
+                const taskData = await taskRes.json();
+                document.getElementById('tasks-content').innerHTML = taskData.html;
+
+                // Agents
+                const agentRes = await fetch('/api/agents');
+                const agentData = await agentRes.json();
+                document.getElementById('agents-content').textContent = agentData.agents;
+                document.getElementById('gateway-content').textContent = agentData.status;
+            } catch (err) {
+                console.error('Fetch error:', err);
+            }
+        }
+
+        fetchData();
+        setInterval(fetchData, 30000); // Auto-refresh every 30s
+    </script>
+</body>
+</html>
