@@ -19,11 +19,8 @@
             background-color: var(--paper);
             color: var(--ink);
             font-family: 'Space Grotesk', sans-serif;
-            background-image: 
-                radial-gradient(circle at 2px 2px, rgba(0,0,0,0.05) 1px, transparent 0);
+            background-image: radial-gradient(circle at 2px 2px, rgba(0,0,0,0.05) 1px, transparent 0);
             background-size: 24px 24px;
-            padding: 2rem;
-            min-height: 100vh;
         }
 
         .hand-drawn {
@@ -31,183 +28,157 @@
             border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
             box-shadow: 4px 4px 0px var(--sketch);
             background: white;
-            transition: transform 0.2s ease;
         }
 
-        .hand-drawn:hover {
-            transform: rotate(-0.5deg) scale(1.01);
-        }
+        .marker { font-family: 'Permanent Marker', cursive; }
+        .terminal-font { font-family: 'VT323', monospace; }
+        .highlight-bg { background: var(--highlight); padding: 0 4px; }
 
-        .marker {
-            font-family: 'Permanent+Marker', cursive;
-            font-family: 'Permanent Marker', cursive;
-        }
-
-        .terminal-font {
-            font-family: 'VT323', monospace;
-        }
-
-        .highlight-bg {
-            background: var(--highlight);
-            padding: 0 4px;
-            display: inline;
-        }
-
-        /* Breaking the grid with absolute positioning and transforms */
-        .sketch-container {
+        .task-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.3rem;
+            height: 1.3rem;
+            border: 2px solid var(--ink);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
             position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .task-board {
-            transform: rotate(-1deg);
-            z-index: 10;
-        }
-
-        .armada-status {
-            transform: rotate(1.5deg);
-            margin-top: 2rem;
-        }
-
-        .gateway-status {
+            cursor: pointer;
+            background: white;
+            border-radius: 4px 8px 3px 6px;
             transform: rotate(-2deg);
-            margin-top: 1rem;
+        }
+
+        .task-checkbox:checked { background: var(--highlight); }
+        .task-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(5deg);
+            font-family: 'Permanent Marker', cursive;
+            color: var(--accent);
+            font-size: 1.4rem;
         }
 
         .prose ul { list-style-type: none; padding-left: 0; }
-        .prose li { margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; }
-        .prose li::before { 
-            content: '→'; 
-            position: absolute; 
-            left: 0; 
-            color: var(--accent);
-            font-weight: bold;
-        }
-        .prose h1 { font-family: 'Permanent Marker', cursive; font-size: 1.8rem; margin-top: 1.5rem; color: var(--accent); }
-        .prose h2 { font-family: 'Permanent Marker', cursive; font-size: 1.4rem; margin-top: 1rem; border-bottom: 1px dashed var(--sketch); }
+        .prose li { margin-bottom: 0.8rem; position: relative; padding-left: 0.5rem; display: flex; align-items: flex-start; }
+        .prose li::before { display: none; }
         
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            background-color: #2ecc71;
-            box-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
-            animation: flicker 2s infinite;
+        #sync-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid var(--ink);
+            border-radius: 12px;
+            font-family: 'VT323', monospace;
+            box-shadow: 4px 4px 0px var(--sketch);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 100;
         }
-
-        @keyframes flicker {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-
-        .tape {
-            position: absolute;
-            width: 100px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.4);
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%) rotate(2deg);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        @media (min-width: 1024px) {
-            .sketch-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 3rem;
-                align-items: flex-start;
-            }
-            .task-board { flex: 2; }
-            .side-stack { flex: 1; display: flex; flex-direction: column; gap: 2rem; }
-        }
+        #sync-status.show { opacity: 1; }
     </style>
 </head>
-<body>
-    <div class="sketch-container">
-        <!-- Header -->
-        <header class="w-full mb-12 text-center lg:text-left relative">
-            <h1 class="marker text-5xl md:text-7xl mb-2 inline-block relative">
-                Kaka's Dash-Board
-                <span class="absolute -right-12 -top-4 text-3xl rotate-12">🛸</span>
-            </h1>
-            <div class="mt-4">
-                <span class="highlight-bg text-xl font-bold uppercase tracking-widest">
-                    <span class="status-dot"></span> Mission Control: <span class="marker">ALIVE</span>
-                </span>
-            </div>
-            <p class="text-sketch italic mt-2 opacity-70 italic text-lg terminal-font">Last synced: <span id="sync-time">Just now</span></p>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 text-center md:text-left">
+            <h1 class="marker text-4xl md:text-6xl mb-2 text-[#d63031]">Kaka's Cockpit 👨‍🚀</h1>
+            <p class="text-xl terminal-font text-gray-600">MISSION CONTROL // STATUS: <span class="highlight-bg">OPERATIONAL</span></p>
         </header>
 
-        <!-- Main Content Area -->
-        <div class="task-board hand-drawn p-8 relative">
-            <div class="tape"></div>
-            <h2 class="marker text-3xl mb-6 flex items-center gap-3">
-                <span class="text-4xl">📝</span> The Daily Grind
-            </h2>
-            <div id="tasks-content" class="prose max-w-none text-ink text-lg leading-relaxed">
-                <p class="animate-pulse">Scribbling tasks down...</p>
-            </div>
-        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Task Board -->
+            <section class="task-board hand-drawn p-6 md:p-10">
+                <h2 class="marker text-3xl mb-6 border-b-2 border-dashed border-gray-300 pb-2">📋 Objectives</h2>
+                <div id="tasks-container" class="prose max-w-none text-lg">
+                    <p class="animate-pulse">Loading mission data...</p>
+                </div>
+            </section>
 
-        <div class="side-stack">
-            <!-- Armada Status -->
-            <div class="armada-status hand-drawn p-6 relative bg-yellow-50">
-                <div class="tape" style="width: 80px; transform: translateX(-50%) rotate(-3deg); background: rgba(255, 255, 0, 0.2);"></div>
-                <h2 class="marker text-2xl mb-4 flex items-center gap-3">
-                    <span class="text-3xl">🤖</span> My Armada
-                </h2>
-                <pre id="agents-content" class="terminal-font text-lg whitespace-pre-wrap text-sketch">
-Waking up the robots...
-                </pre>
-            </div>
+            <!-- Status Side -->
+            <div class="flex flex-col gap-8">
+                <section class="armada-status hand-drawn p-6 bg-white">
+                    <h2 class="marker text-2xl mb-4">🚀 Armada Status</h2>
+                    <pre id="armada-content" class="terminal-font text-lg whitespace-pre-wrap text-gray-600">Initializing...</pre>
+                </section>
 
-            <!-- Gateway Status -->
-            <div class="gateway-status hand-drawn p-6 relative bg-blue-50">
-                <div class="tape" style="width: 120px; top: -10px; transform: translateX(-50%) rotate(1deg); background: rgba(0, 0, 255, 0.1);"></div>
-                <h2 class="marker text-2xl mb-4 flex items-center gap-3">
-                    <span class="text-3xl">🛰️</span> Gateway Link
-                </h2>
-                <pre id="gateway-content" class="terminal-font text-lg whitespace-pre-wrap text-sketch">
-Pinging orbit...
-                </pre>
+                <section class="gateway-status hand-drawn p-6 bg-[#2d3436] text-[#ffeaa7]">
+                    <h2 class="marker text-2xl mb-4 text-[#d63031]">⚡ Gateway</h2>
+                    <pre id="gateway-content" class="terminal-font text-xl">Connecting...</pre>
+                </section>
             </div>
-            
-            <footer class="mt-8 terminal-font text-center opacity-40 hover:opacity-100 transition-opacity">
-                <p>Built with ❤️ by KaDev & Kapten Kaka</p>
-                <p class="text-xs">Proprietary Tech / Zero Grid Philosophy</p>
-            </footer>
         </div>
     </div>
 
+    <div id="sync-status">Synced</div>
+
     <script>
-        async function fetchData() {
-            try {
-                // Update sync time
-                document.getElementById('sync-time').textContent = new Date().toLocaleTimeString();
-
-                // Tasks
-                const taskRes = await fetch('/api/tasks');
-                const taskData = await taskRes.json();
-                document.getElementById('tasks-content').innerHTML = taskData.html || '<p class="text-red-600">Tasks went missing!</p>';
-
-                // Agents
-                const agentRes = await fetch('/api/agents');
-                const agentData = await agentRes.json();
-                document.getElementById('agents-content').textContent = agentData.agents || 'No robot reports.';
-                document.getElementById('gateway-content').textContent = agentData.status || 'Radio silence.';
-            } catch (err) {
-                console.error('Fetch error:', err);
-                document.getElementById('tasks-content').innerHTML = '<p class="text-red-600 marker text-2xl">The connection snapped! 🔌</p>';
+        const syncStatus = document.getElementById('sync-status');
+        
+        function showStatus(text, duration = 2000) {
+            syncStatus.textContent = text;
+            syncStatus.classList.add('show');
+            if (duration) {
+                setTimeout(() => syncStatus.classList.remove('show'), duration);
             }
         }
 
-        fetchData();
-        setInterval(fetchData, 30000); // Check every 30s
+        async function fetchTasks() {
+            try {
+                const res = await fetch('/api/tasks');
+                const data = await res.json();
+                document.getElementById('tasks-container').innerHTML = data.html;
+            } catch (err) {
+                document.getElementById('tasks-container').innerHTML = '<p class="text-red-500">Failed to load tasks.</p>';
+            }
+        }
+
+        async function fetchStatus() {
+            try {
+                const res = await fetch('/api/agents');
+                const data = await res.json();
+                document.getElementById('armada-content').textContent = data.agents || 'No armada data';
+                document.getElementById('gateway-content').textContent = data.status || 'Offline';
+            } catch (err) {
+                console.error('Failed to fetch status');
+            }
+        }
+
+        document.getElementById('tasks-container').addEventListener('change', async (e) => {
+            if (e.target.classList.contains('task-checkbox')) {
+                const checkbox = e.target;
+                const lineIndex = checkbox.getAttribute('data-line');
+                const checked = checkbox.checked;
+
+                showStatus('Saving...', 0);
+
+                try {
+                    const res = await fetch('/api/tasks/toggle', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ lineIndex: parseInt(lineIndex), checked })
+                    });
+
+                    if (res.ok) {
+                        showStatus('Synced ✨');
+                    } else {
+                        showStatus('Error ❌');
+                        checkbox.checked = !checked;
+                    }
+                } catch (err) {
+                    showStatus('Connection Error ❌');
+                    checkbox.checked = !checked;
+                }
+            }
+        });
+
+        fetchTasks();
+        fetchStatus();
+        setInterval(fetchStatus, 30000);
     </script>
 </body>
 </html>
