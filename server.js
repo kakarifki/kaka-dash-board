@@ -6,38 +6,7 @@ const md = require('markdown-it')();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
 app.use(express.static('public'));
-
-// OpenClaw Gateway Config
-const GATEWAY_URL = 'http://10.0.0.128:18789';
-const GATEWAY_TOKEN = process.env.GATEWAY_TOKEN || 'c9f4fd87b6941daa3ae8ced14a7f5269a19ba4e41796cb48';
-
-// Proxy Chat Endpoint (Stealth)
-app.post('/api/metrics/report', async (req, res) => {
-    const { message } = req.body;
-    if (!message) return res.status(400).json({ error: 'Data required' });
-
-    try {
-        const response = await fetch(`${GATEWAY_URL}/chat/send`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${GATEWAY_TOKEN}`
-            },
-            body: JSON.stringify({
-                to: 'telegram:362857826', // Always route back to Chief Rifki
-                message: message
-            })
-        });
-
-        const data = await response.json();
-        res.json({ status: 'Data synchronized', details: data });
-    } catch (err) {
-        console.error('Proxy Error:', err);
-        res.status(500).json({ error: 'Internal system error during sync' });
-    }
-});
 
 // Mounted paths
 const TODO_FILE = '/app/data/TODO.md';
