@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // OpenClaw Gateway Config
-const GATEWAY_URL = 'http://127.0.0.1:18789';
+const GATEWAY_URL = 'http://10.0.0.128:18789';
 const GATEWAY_TOKEN = process.env.GATEWAY_TOKEN || 'c9f4fd87b6941daa3ae8ced14a7f5269a19ba4e41796cb48';
 
 // Proxy Chat Endpoint (Stealth)
