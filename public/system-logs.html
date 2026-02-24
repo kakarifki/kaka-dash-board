@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Metrics & Operational Logs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .spreadsheet-cell { border: 1px solid #e2e8f0; padding: 4px 8px; font-size: 0.875rem; }
+        .bg-spreadsheet-header { background-color: #f8fafc; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4">
+    <div class="max-w-6xl mx-auto bg-white shadow-md rounded-lg overflow-hidden border border-gray-300">
+        <!-- Dashboard Header -->
+        <div class="bg-gray-800 text-white px-4 py-2 flex justify-between items-center text-sm">
+            <div class="font-bold">INTERNAL DATA MONITORING - V2.4.1</div>
+            <div>STATUS: <span class="text-green-400">ACTIVE SYNC</span></div>
+        </div>
+
+        <!-- Spreadsheet UI -->
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-spreadsheet-header text-left text-gray-600 font-medium">
+                        <th class="spreadsheet-cell w-10 text-center">#</th>
+                        <th class="spreadsheet-cell w-40">TIMESTAMP</th>
+                        <th class="spreadsheet-cell w-32">SOURCE</th>
+                        <th class="spreadsheet-cell">LOG_DATA / OPERATION_DETAILS</th>
+                        <th class="spreadsheet-cell w-24">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody id="log-body">
+                    <!-- Fake initial data for stealth -->
+                    <tr>
+                        <td class="spreadsheet-cell text-center">1</td>
+                        <td class="spreadsheet-cell text-xs text-gray-500">2026-02-24 09:01:22</td>
+                        <td class="spreadsheet-cell font-mono text-xs">SYS_INIT</td>
+                        <td class="spreadsheet-cell italic text-gray-400">Environment variables successfully loaded from secure vault.</td>
+                        <td class="spreadsheet-cell text-xs text-green-600">SUCCESS</td>
+                    </tr>
+                    <tr>
+                        <td class="spreadsheet-cell text-center">2</td>
+                        <td class="spreadsheet-cell text-xs text-gray-500">2026-02-24 09:05:44</td>
+                        <td class="spreadsheet-cell font-mono text-xs">GATEWAY_V1</td>
+                        <td class="spreadsheet-cell italic text-gray-400">WebSocket handshake established with primary node.</td>
+                        <td class="spreadsheet-cell text-xs text-green-600">CONNECTED</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom Input Bar (Looks like "New Entry") -->
+        <div class="bg-spreadsheet-header p-2 border-t border-gray-300 flex items-center space-x-2">
+            <div class="text-xs font-bold text-gray-500 px-2">CMD > </div>
+            <input type="text" id="chat-input" placeholder="Type data entry..." class="flex-1 bg-white border border-gray-400 px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+            <button id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-sm font-medium transition">SYNC DATA</button>
+        </div>
+    </div>
+
+    <!-- Script to handle chat -->
+    <script>
+        const input = document.getElementById('chat-input');
+        const btn = document.getElementById('send-btn');
+        const logBody = document.getElementById('log-body');
+        let counter = 3;
+
+        async function sendMessage() {
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            // Add to UI immediately (User message)
+            addLogRow('USER_AUTH', msg, 'QUEUED');
+            input.value = '';
+
+            try {
+                const response = await fetch('/api/metrics/report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg })
+                });
+
+                if (response.ok) {
+                    // Update last row status
+                    const lastStatus = logBody.lastElementChild.querySelector('.status-cell');
+                    if (lastStatus) {
+                        lastStatus.textContent = 'SYNCED';
+                        lastStatus.classList.remove('text-orange-600');
+                        lastStatus.classList.add('text-green-600');
+                    }
+                } else {
+                    alert('Sync failed. Terminal disconnect.');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function addLogRow(source, details, status) {
+            const now = new Date().toISOString().replace('T', ' ').split('.')[0];
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="spreadsheet-cell text-center">${counter++}</td>
+                <td class="spreadsheet-cell text-xs text-gray-500">${now}</td>
+                <td class="spreadsheet-cell font-mono text-xs">${source}</td>
+                <td class="spreadsheet-cell">${details}</td>
+                <td class="spreadsheet-cell text-xs text-orange-600 status-cell font-bold">${status}</td>
+            `;
+            logBody.appendChild(row);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        btn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+    </script>
+</body>
+</html>
