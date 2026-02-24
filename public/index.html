@@ -34,53 +34,22 @@
         .terminal-font { font-family: 'VT323', monospace; }
         .highlight-bg { background: var(--highlight); padding: 0 4px; }
 
-        .task-checkbox {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 1.3rem;
-            height: 1.3rem;
-            border: 2px solid var(--ink);
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 10px;
-            position: relative;
-            cursor: pointer;
-            background: white;
-            border-radius: 4px 8px 3px 6px;
-            transform: rotate(-2deg);
-        }
-
-        .task-checkbox:checked { background: var(--highlight); }
-        .task-checkbox:checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(5deg);
-            font-family: 'Permanent Marker', cursive;
-            color: var(--accent);
-            font-size: 1.4rem;
-        }
-
         .prose ul { list-style-type: none; padding-left: 0; }
-        .prose li { margin-bottom: 0.8rem; position: relative; padding-left: 0.5rem; display: flex; align-items: flex-start; }
-        .prose li::before { display: none; }
-        
-        #sync-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 8px 16px;
-            background: white;
-            border: 2px solid var(--ink);
-            border-radius: 12px;
-            font-family: 'VT323', monospace;
-            box-shadow: 4px 4px 0px var(--sketch);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 100;
+        .prose li { margin-bottom: 0.8rem; position: relative; padding-left: 1.5rem; display: flex; align-items: flex-start; }
+        .prose li::before { 
+            content: '→'; 
+            position: absolute; 
+            left: 0; 
+            color: var(--accent);
+            font-weight: bold;
+            font-family: 'Permanent Marker', cursive;
         }
-        #sync-status.show { opacity: 1; }
+
+        .prose input[type="checkbox"] {
+            pointer-events: none;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -114,19 +83,7 @@
         </div>
     </div>
 
-    <div id="sync-status">Synced</div>
-
     <script>
-        const syncStatus = document.getElementById('sync-status');
-        
-        function showStatus(text, duration = 2000) {
-            syncStatus.textContent = text;
-            syncStatus.classList.add('show');
-            if (duration) {
-                setTimeout(() => syncStatus.classList.remove('show'), duration);
-            }
-        }
-
         async function fetchTasks() {
             try {
                 const res = await fetch('/api/tasks');
@@ -148,36 +105,9 @@
             }
         }
 
-        document.getElementById('tasks-container').addEventListener('change', async (e) => {
-            if (e.target.classList.contains('task-checkbox')) {
-                const checkbox = e.target;
-                const lineIndex = checkbox.getAttribute('data-line');
-                const checked = checkbox.checked;
-
-                showStatus('Saving...', 0);
-
-                try {
-                    const res = await fetch('/api/tasks/toggle', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ lineIndex: parseInt(lineIndex), checked })
-                    });
-
-                    if (res.ok) {
-                        showStatus('Synced ✨');
-                    } else {
-                        showStatus('Error ❌');
-                        checkbox.checked = !checked;
-                    }
-                } catch (err) {
-                    showStatus('Connection Error ❌');
-                    checkbox.checked = !checked;
-                }
-            }
-        });
-
         fetchTasks();
         fetchStatus();
+        setInterval(fetchTasks, 30000);
         setInterval(fetchStatus, 30000);
     </script>
 </body>
