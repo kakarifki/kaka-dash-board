@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rifki Septiawan | Software Engineer & Technical SDR</title>
+    <title>INDEX: Rifki Septiawan | Software Engineer & Technical SDR</title>
     
-    <!-- Typography: Instrument Serif for headings, Inter for body -->
+    <!-- Typography: Mono and Sans for archival feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #ffffff;
-            --text-main: #1a1a1a;
-            --text-muted: #666666;
-            --accent: #000000;
-            --line: #eeeeee;
-            --ma: 4rem; /* Base unit for "Ma" (negative space) */
+            --bg: #f9f9f9;
+            --text-main: #111111;
+            --text-muted: #555555;
+            --border: #d1d1d1;
+            --accent: #222222;
+            --font-size-base: 13px;
         }
 
         * {
@@ -29,267 +29,287 @@
         body {
             background-color: var(--bg);
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            font-weight: 300;
-            line-height: 1.7;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            font-family: 'IBM+Plex+Sans', sans-serif;
+            font-size: var(--font-size-base);
+            line-height: 1.4;
+            padding: 2rem;
         }
 
-        /* The concept of "Ma" - space as a design element */
-        .container {
-            max-width: 1000px;
+        .index-wrapper {
+            max-width: 900px;
             margin: 0 auto;
-            padding: calc(var(--ma) * 2) 2rem;
-            position: relative;
+            border: 1px solid var(--border);
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        /* Asymmetric Layout */
+        /* Catalog Header */
         header {
-            margin-bottom: calc(var(--ma) * 3);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        h1 {
-            font-family: 'Instrument Serif', serif;
-            font-size: clamp(3.5rem, 10vw, 5rem);
-            font-weight: 400;
-            line-height: 0.9;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .role {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            border-left: 1px solid var(--text-main);
-            padding-left: 1.5rem;
-        }
-
-        /* Bio - Extreme Minimalism */
-        .section-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            display: block;
-        }
-
-        .bio {
-            max-width: 500px;
-            margin-left: auto; /* Asymmetric balance */
-            margin-bottom: calc(var(--ma) * 4);
-        }
-
-        .bio-text {
-            font-size: 1.25rem;
-            color: var(--text-main);
-            line-height: 1.8;
-        }
-
-        /* Projects - List as path, one focal element at a time */
-        .projects {
-            margin-bottom: calc(var(--ma) * 4);
-        }
-
-        .project-item {
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--line);
-            transition: opacity 0.4s ease;
+            padding: 1.5rem;
+            border-bottom: 3px double var(--border);
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            text-decoration: none;
-            color: inherit;
         }
 
-        .project-item:first-child {
-            border-top: 1px solid var(--line);
-        }
-
-        .project-item:hover {
-            opacity: 0.6;
-        }
-
-        .project-info {
-            max-width: 60%;
-        }
-
-        .project-name {
-            font-family: 'Instrument Serif', serif;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .project-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        .project-meta {
-            text-align: right;
-            font-size: 0.8rem;
+        .header-title {
             text-transform: uppercase;
             letter-spacing: 0.1em;
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            line-height: 1;
+        }
+
+        .header-title p {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
-        /* Links / Socials - Asymmetric Grid */
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: calc(var(--ma) * 2);
-        }
-
-        .social-link {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.5rem;
-            text-decoration: none;
-            color: var(--text-main);
-            display: inline-block;
-            margin-right: 2rem;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .social-link:hover {
-            border-bottom: 1px solid var(--text-main);
-        }
-
-        .copyright {
-            margin-top: calc(var(--ma) * 2);
+        .header-meta {
+            text-align: right;
+            font-family: 'IBM Plex Mono', monospace;
             font-size: 0.75rem;
             color: var(--text-muted);
-            letter-spacing: 0.05em;
         }
 
-        /* Decorative Zen Element: A single thin vertical line representing focus */
-        .zen-line {
-            position: fixed;
-            top: 0;
-            right: 15%;
-            width: 1px;
-            height: 100vh;
-            background: linear-gradient(to bottom, transparent, var(--line), transparent);
-            z-index: -1;
+        /* Section Styling */
+        section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Enso-inspired subtle circle in the background */
-        .enso {
-            position: fixed;
-            top: 10%;
-            left: -100px;
-            width: 400px;
-            height: 400px;
-            border: 1px solid rgba(0,0,0,0.03);
-            border-radius: 50%;
-            z-index: -2;
+        section:last-child {
+            border-bottom: none;
+        }
+
+        .section-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: var(--text-main);
+            color: white;
+            padding: 2px 6px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Bio Table Layout */
+        .bio-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .bio-label {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding-top: 0.3rem;
+        }
+
+        /* Table Design for Projects */
+        .catalog-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+        }
+
+        .catalog-table th, .catalog-table td {
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .catalog-table th {
+            background-color: #f2f2f2;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .catalog-table tr:hover td {
+            background-color: #fcfcfc;
+        }
+
+        .col-ref { width: 50px; font-family: 'IBM Plex Mono', monospace; color: var(--text-muted); font-size: 0.7rem; text-align: center; }
+        .col-name { width: 200px; font-weight: 600; }
+        .col-tech { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; }
+
+        .project-link {
+            color: var(--text-main);
+            text-decoration: underline;
+            text-decoration-color: var(--border);
+            text-underline-offset: 3px;
+        }
+
+        .project-link:hover {
+            color: blue;
+            text-decoration-color: blue;
+        }
+
+        /* Footer / Links */
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .link-item {
+            border: 1px solid var(--border);
+            padding: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .link-item:hover {
+            background: #f0f0f0;
+        }
+
+        .link-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .link-val {
+            font-weight: 500;
+        }
+
+        .archival-stamp {
+            margin-top: 2rem;
+            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
         }
 
         @media (max-width: 768px) {
-            :root {
-                --ma: 2.5rem;
-            }
-            .container {
-                padding: var(--ma) 1.5rem;
-            }
-            .bio {
-                margin-left: 0;
-            }
-            .project-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .project-info {
-                max-width: 100%;
-                margin-bottom: 1rem;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            .zen-line {
-                display: none;
-            }
+            body { padding: 1rem; }
+            header { flex-direction: column; align-items: flex-start; }
+            .header-meta { text-align: left; margin-top: 1rem; }
+            .bio-grid { grid-template-columns: 1fr; }
+            .catalog-table { display: block; overflow-x: auto; }
+            .footer-links { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="zen-line"></div>
-    <div class="enso"></div>
 
-    <div class="container">
+    <div class="index-wrapper">
         <header>
-            <span class="section-label">Identity</span>
-            <h1>Rifki<br>Septiawan</h1>
-            <div class="role">Software Engineer / Technical SDR</div>
+            <div class="header-title">
+                <h1>RIFKI SEPTIAWAN</h1>
+                <p>SUBJECT_ID: SDE_SDR_2026</p>
+            </div>
+            <div class="header-meta">
+                LOC: JAKARTA, IDN<br>
+                VER: 4.0.0 (CATALOG_STYLE)<br>
+                DATE: 2026-02-25
+            </div>
         </header>
 
-        <section class="bio">
-            <span class="section-label">Intent</span>
-            <div class="bio-text">
-                From curiosity to code. I bridge the gap between technical complexity and human growth. 
-                <br><br>
-                A Bearmentor graduate, focused on building intentional digital solutions that respect the user.
-            </div>
-        </section>
-
-        <section class="projects">
-            <span class="section-label">Works</span>
-            
-            <a href="https://indonesia-heritage-api.rifkiseptiawan.com/api" class="project-item" target="_blank">
-                <div class="project-info">
-                    <span class="project-name">Indonesian Culture API</span>
-                    <p class="project-desc">A comprehensive repository of heritage data for the modern web.</p>
-                </div>
-                <div class="project-meta">Hono / Prisma / PostgreSQL</div>
-            </a>
-
-            <a href="https://jkt48-fanbase-merch.rifkiseptiawan.com/" class="project-item" target="_blank">
-                <div class="project-info">
-                    <span class="project-name">JKT48 Fanbase Merch</span>
-                    <p class="project-desc">E-commerce experience built for community and connection.</p>
-                </div>
-                <div class="project-meta">React / Vite / Hono</div>
-            </a>
-
-            <a href="https://videoboxd.com/" class="project-item" target="_blank">
-                <div class="project-info">
-                    <span class="project-name">Videoboxd</span>
-                    <p class="project-desc">Personal video tracking and discovery platform.</p>
-                </div>
-                <div class="project-meta">React / OpenAPI</div>
-            </a>
-
-            <a href="https://tantipujian.vercel.app" class="project-item" target="_blank">
-                <div class="project-info">
-                    <span class="project-name">Tanti's Portfolio</span>
-                    <p class="project-desc">Elegant showcase for creative work, emphasizing clarity.</p>
-                </div>
-                <div class="project-meta">NextJS / Tailwind</div>
-            </a>
-        </section>
-
-        <footer>
-            <span class="section-label">Connection</span>
-            <div class="footer-grid">
+        <section id="biography">
+            <span class="section-tag">REF_01: BIOGRAPHY</span>
+            <div class="bio-grid">
+                <div class="bio-label">OVERVIEW</div>
                 <div>
-                    <a href="https://github.com/kakarifki" class="social-link" target="_blank">GitHub</a>
-                    <a href="https://linkedin.com/in/muhammadrifkiseptiawan11" class="social-link" target="_blank">LinkedIn</a>
-                    <a href="https://instagram.com/rifkiseptiawan" class="social-link" target="_blank">Instagram</a>
+                    Software Engineer / Technical SDR with a focus on intentional digital architecture. 
+                    I operate at the intersection of technical implementation and human-centric growth.
                 </div>
+                
+                <div class="bio-label">AFFILIATION</div>
+                <div>Bearmentor (Graduate)</div>
+                
+                <div class="bio-label">PHILOSOPHY</div>
+                <div>Anti-AI (Automated Inefficiency), Pro-Human (Intentional Structure). Building tools that respect the user.</div>
             </div>
-            <div class="copyright">
-                Hand-coded with intent. &copy; 2026 Rifki Septiawan.
+        </section>
+
+        <section id="portfolio">
+            <span class="section-tag">REF_02: WORKS_INDEX</span>
+            <table class="catalog-table">
+                <thead>
+                    <tr>
+                        <th class="col-ref">CODE</th>
+                        <th class="col-name">PROJECT_NAME</th>
+                        <th>DESCRIPTION</th>
+                        <th class="col-tech">STACK_SPEC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-ref">P-01</td>
+                        <td class="col-name">
+                            <a href="https://indonesia-heritage-api.rifkiseptiawan.com/api" class="project-link" target="_blank">Indonesian Culture API</a>
+                        </td>
+                        <td>A comprehensive repository of heritage data for the modern web. Structured archival of cultural assets.</td>
+                        <td class="col-tech">HONO, PRISMA, POSTGRESQL</td>
+                    </tr>
+                    <tr>
+                        <td class="col-ref">P-02</td>
+                        <td class="col-name">
+                            <a href="https://jkt48-fanbase-merch.rifkiseptiawan.com/" class="project-link" target="_blank">JKT48 Fanbase Merch</a>
+                        </td>
+                        <td>Community-driven e-commerce experience. Focus on connection and fan culture dynamics.</td>
+                        <td class="col-tech">REACT, VITE, HONO</td>
+                    </tr>
+                    <tr>
+                        <td class="col-ref">P-03</td>
+                        <td class="col-name">
+                            <a href="https://videoboxd.com/" class="project-link" target="_blank">Videoboxd</a>
+                        </td>
+                        <td>Personal video tracking and discovery platform. Reference-based media organization.</td>
+                        <td class="col-tech">REACT, OPENAPI</td>
+                    </tr>
+                    <tr>
+                        <td class="col-ref">P-04</td>
+                        <td class="col-name">
+                            <a href="https://tantipujian.vercel.app" class="project-link" target="_blank">Tanti's Portfolio</a>
+                        </td>
+                        <td>Elegant showcase for creative work. Prioritizing visual clarity and structured gallery layout.</td>
+                        <td class="col-tech">NEXTJS, TAILWIND</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="connectivity">
+            <span class="section-tag">REF_03: ACCESS_POINTS</span>
+            <div class="footer-links">
+                <a href="https://github.com/kakarifki" class="link-item" target="_blank">
+                    <span class="link-label">GIT</span>
+                    <span class="link-val">github.com/kakarifki</span>
+                </a>
+                <a href="https://linkedin.com/in/muhammadrifkiseptiawan11" class="link-item" target="_blank">
+                    <span class="link-label">LNK</span>
+                    <span class="link-val">rifki-septiawan</span>
+                </a>
+                <a href="https://instagram.com/rifkiseptiawan" class="link-item" target="_blank">
+                    <span class="link-label">INS</span>
+                    <span class="link-val">@rifkiseptiawan</span>
+                </a>
             </div>
-        </footer>
+        </section>
     </div>
+
+    <div class="archival-stamp">
+        [ HAND-CODED FOR HUMAN CONSUMPTION / NO GENERIC TEMPLATES DETECTED ]
+    </div>
+
 </body>
 </html>
