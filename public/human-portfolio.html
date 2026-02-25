@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifki Septiawan | Software Engineer / Technical SDR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #fcfaf2;
+            --ink: #2b303b;
+            --ink-fade: rgba(43, 48, 59, 0.7);
+            --accent: #d9534f;
+            --blue-ink: #3b5998;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0,0,0,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, transparent 95%, rgba(0,0,0,0.03) 95%);
+            background-size: 30px 30px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Anti-AI Header: Asymmetric, rotated, hand-drawn feel */
+        header {
+            margin-bottom: 5rem;
+            padding: 2rem;
+            border: 3px solid var(--ink);
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            transform: rotate(-1.2deg);
+            display: inline-block;
+            background: white;
+            box-shadow: 5px 5px 0px var(--ink);
+        }
+
+        h1 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .role {
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-style: italic;
+            color: var(--blue-ink);
+            margin-left: 10px;
+        }
+
+        /* Bio: Overlapping elements, non-standard layout */
+        .bio-section {
+            margin-left: 15%;
+            margin-top: -20px;
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .bio-text {
+            font-size: 1.3rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background: rgba(255,255,255,0.5);
+        }
+
+        .marker-highlight {
+            background: linear-gradient(120deg, #fff9c4 0%, #fff9c4 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 0.4em;
+            background-position: 0 88%;
+            padding: 0.1em 0;
+        }
+
+        /* Projects: No cards! A timeline-like sketch feel */
+        .section-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2.5rem;
+            margin: 4rem 0 2rem 0;
+            text-decoration: underline wavy var(--accent);
+        }
+
+        .project-list {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .project-item {
+            margin-bottom: 3rem;
+            position: relative;
+            max-width: 600px;
+        }
+
+        .project-item:nth-child(even) {
+            margin-left: auto;
+            margin-right: 2rem;
+            text-align: right;
+        }
+
+        .project-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-item a {
+            color: var(--blue-ink);
+            text-decoration: none;
+            border-bottom: 2px dashed var(--blue-ink);
+            transition: all 0.3s;
+        }
+
+        .project-item a:hover {
+            background: var(--blue-ink);
+            color: white;
+        }
+
+        .project-tech {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--ink-fade);
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Hand-drawn sketch element */
+        .sketch-arrow {
+            position: absolute;
+            left: -40px;
+            top: 10px;
+            font-size: 2rem;
+            color: var(--accent);
+            transform: rotate(20deg);
+        }
+
+        /* Socials: Scattered layout */
+        .social-links {
+            margin-top: 5rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            transform: rotate(1deg);
+        }
+
+        .social-item {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.5rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--ink);
+            border-radius: 15px 50px 30px 5px;
+            background: white;
+            transition: transform 0.2s;
+        }
+
+        .social-item:hover {
+            transform: scale(1.1) rotate(-3deg);
+            box-shadow: 3px 3px 0px var(--accent);
+        }
+
+        .social-item a {
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 6rem;
+            text-align: center;
+            font-style: italic;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                transform: none;
+                width: 100%;
+            }
+            .bio-section {
+                margin-left: 0;
+            }
+            .project-item:nth-child(even) {
+                text-align: left;
+                margin-left: 0;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Decorative ink blots */
+        .ink-blot {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: var(--ink);
+            opacity: 0.05;
+            filter: blur(10px);
+            border-radius: 50%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ink-blot" style="top: 10%; right: 5%;"></div>
+        <div class="ink-blot" style="bottom: 20%; left: 10%; width: 80px; height: 30px;"></div>
+
+        <header>
+            <h1>Rifki Septiawan</h1>
+            <div class="role">Software Engineer / Technical SDR</div>
+        </header>
+
+        <section class="bio-section">
+            <div class="bio-text">
+                From curiosity to code. Started taking apart computers in middle school, now building <span class="marker-highlight">digital solutions</span>. 
+                <br><br>
+                Bearmentor.com bootcamp graduate. I bridge the gap between technical complexity and business growth.
+            </div>
+        </section>
+
+        <h2 class="section-title">Experiments & Builds</h2>
+
+        <div class="project-list">
+            <div class="project-item">
+                <span class="sketch-arrow">→</span>
+                <span class="project-name">Indonesian Culture REST API</span>
+                <p>A comprehensive repository of heritage data.</p>
+                <span class="project-tech">Hono • Docker • Prisma • PostgreSQL</span>
+                <a href="https://indonesia-heritage-api.rifkiseptiawan.com/api" target="_blank">View API docs</a>
+            </div>
+
+            <div class="project-item">
+                <span class="project-name">JKT48 Fanbase Merch</span>
+                <p>E-commerce experience for the idol community.</p>
+                <span class="project-tech">React • Vite • Hono • Prisma</span>
+                <a href="https://jkt48-fanbase-merch.rifkiseptiawan.com/" target="_blank">Browse Merch</a>
+            </div>
+
+            <div class="project-item">
+                <span class="sketch-arrow" style="transform: rotate(160deg); left: auto; right: -40px;">←</span>
+                <span class="project-name">Videoboxd</span>
+                <p>Personal video tracking and discovery platform.</p>
+                <span class="project-tech">React Router • Hono • OpenAPI</span>
+                <a href="https://videoboxd.com/" target="_blank">Open Videoboxd</a>
+            </div>
+
+            <div class="project-item">
+                <span class="project-name">Tanti's Portfolio</span>
+                <p>Elegant, minimal showcase for creative work.</p>
+                <span class="project-tech">NextJS • Tailwind</span>
+                <a href="https://tantipujian.vercel.app" target="_blank">Visit Site</a>
+            </div>
+        </div>
+
+        <h2 class="section-title">Get in Touch</h2>
+        <div class="social-links">
+            <div class="social-item">
+                <a href="https://github.com/kakarifki" target="_blank">GitHub</a>
+            </div>
+            <div class="social-item" style="transform: rotate(-2deg);">
+                <a href="https://linkedin.com/in/muhammadrifkiseptiawan11" target="_blank">LinkedIn</a>
+            </div>
+            <div class="social-item" style="transform: rotate(3deg);">
+                <a href="https://instagram.com/rifkiseptiawan" target="_blank">Instagram</a>
+            </div>
+        </div>
+
+        <footer>
+            Hand-coded with ink and intent. &copy; 2026 Rifki Septiawan
+        </footer>
+    </div>
+</body>
+</html>
